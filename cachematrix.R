@@ -3,16 +3,21 @@
 
 ## Write a short comment describing this function
 
-makeCacheMatrix <- function(input = matrix()) {
-
-  inv <- NULL
-  set <- function(y) {
-    input <<- y
-    inv <<- NULL
+makeCacheMatrix <- function(q = matrix()) {
+  ## create a matrix object q and some associated sub-functions/methods
+  
+  ## define the cache p
+  p <- NULL
+  set <- function(input) {
+    q <<- input ## assign the input matrix input to the variable q in the
+    ## parent environment
+    ## 
+    
+    p <<- NULL ## re-initialize m in the parent environment to null
   }
-  get <- function() input
-  setinverse <- function(inverse) inv <<- inverse
-  getinverse <- function() inv
+  get <- function() q
+  setinverse <- function(inverse) p <<- inverse
+  getinverse <- function() p
   list(set=set, get=get, setinverse=setinverse, getinverse=getinverse)
 }
 
@@ -24,14 +29,14 @@ makeCacheMatrix <- function(input = matrix()) {
 # setinverse function.
 
 cacheSolve <- function(input_matrix, ...) {
-        ## Return a matrix that is the inverse of 'x'
+        ## Return a matrix that is the inverse of 'input_matrix'
   inverse <- input_matrix$getinverse()
   if(!is.null(inverse)) {
     message("giving cached matrix.")
-    return(inv)
+    return(inverse)
   }
   data <- input_matrix$get()
   inverse <- solve(data)
-  input_matrix$setinverse(inv)
+  input_matrix$setinverse(inverse)
   inverse
 }
